@@ -32,6 +32,8 @@ BotlyStudio.materializeJsInit = function () {
     swipeable: false
   });
 
+  $('select').formSelect();
+  $('.modal').modal();
   // Drop down menus
   $('.dropdown-button').dropdown({ hover: false });
   // Pop-up tool tips
@@ -61,92 +63,6 @@ BotlyStudio.buttonLoadXmlCodeDisplay = function () {
   }, 400);
 };
 
-/**
- * Changes the IDE launch buttons based on the option indicated in the argument.
- * @param {!string} value One of the 3 possible values from the drop down select
- *     in the settings modal: 'upload', 'verify', or 'open'.
- *
-BotlyStudio.changeIdeButtonsDesign = function(value) {
-  var buttonLeft = document.getElementById('button_ide_left');
-  var buttonMiddle = document.getElementById('button_ide_middle');
-  var buttonLarge = document.getElementById('button_ide_large');
-  var buttonLast = document.getElementById('button_ide_last');
-
-
-  if (value === 'upload') {
-    buttonLeft.className =
-        buttonLeft.className.replace(/arduino_\S+/, 'arduino_yellow');
-    iconLeft.className = 'mdi-action-open-in-browser';
-    buttonMiddle.className =
-        buttonMiddle.className.replace(/arduino_\S+/, 'arduino_teal');
-    iconMiddle.className = 'mdi-navigation-check';
-    buttonLarge.className =
-        buttonLarge.className.replace(/arduino_\S+/, 'arduino_orange');
-    iconLarge.className = 'mdi-av-play-arrow';
-  } else if (value === 'verify') {
-    buttonLeft.className =
-        buttonLeft.className.replace(/arduino_\S+/, 'arduino_yellow');
-    iconLeft.className = 'mdi-action-open-in-browser';
-    buttonMiddle.className =
-        buttonMiddle.className.replace(/arduino_\S+/, 'arduino_orange');
-    iconMiddle.className = 'mdi-av-play-arrow';
-    buttonLarge.className =
-        buttonLarge.className.replace(/arduino_\S+/, 'arduino_teal');
-    iconLarge.className = 'mdi-navigation-check';
-  } else if (value === 'open') {
-    buttonLeft.className =
-        buttonLeft.className.replace(/arduino_\S+/, 'arduino_teal');
-    iconLeft.className = 'mdi-navigation-check';
-    buttonMiddle.className =
-        buttonMiddle.className.replace(/arduino_\S+/, 'arduino_orange');
-    iconMiddle.className = 'mdi-av-play-arrow';
-    buttonLarge.className =
-        buttonLarge.className.replace(/arduino_\S+/, 'arduino_yellow');
-    iconLarge.className = 'mdi-action-open-in-browser';
-  }
-};
-*/
-
-
-/**
- * Displays or hides the additional Arduino IDE action buttons.
- * Hide/display effects done with CCS3 transitions on visibility and opacity.
- * @param {!boolean} show Indicates if the extra buttons are to be shown.
- 
-BotlyStudio.showExtraIdeButtons = function(show) {
-  var IdeButtonLeft = document.getElementById('button_ide_left');
-  var IdeButtonMiddle = document.getElementById('button_ide_middle');
-  var IdeButtonLast = document.getElementById('button_ide_last');
-  if (show) {
-    // prevent previously set time-out to hide buttons while trying to show them
-    clearTimeout(BotlyStudio.outHoldtimeoutHandle);
-    clearTimeout(BotlyStudio.hidetimeoutHandle);
-    IdeButtonMiddle.style.visibility = 'visible';
-    IdeButtonMiddle.style.opacity = '1';
-    BotlyStudio.showtimeoutHandle = setTimeout(function() {
-      IdeButtonLeft.style.visibility = 'visible';
-      IdeButtonLeft.style.opacity = '1';
-      IdeButtonLast.style.visibility = 'visible';
-      IdeButtonLast.style.opacity = '1'
-    }, 50);
-  } else {
-    // As the mouse out can be accidental, only hide them after a delay
-    BotlyStudio.outHoldtimeoutHandle = setTimeout(function() {
-      // Prevent show time-out to affect the hiding of the buttons
-      clearTimeout(BotlyStudio.showtimeoutHandle);
-      IdeButtonLeft.style.visibility = 'hidden';
-      IdeButtonLeft.style.opacity = '0';
-      BotlyStudio.hidetimeoutHandle = setTimeout(function() {
-        IdeButtonMiddle.style.visibility = 'hidden';
-        IdeButtonMiddle.style.opacity = '0';
-        IdeButtonLast.style.visibility = 'hidden';
-        IdeButtonLast.style.opacity = '0'
-      }, 50);
-    }, 200);
-  }
-};
-
-*/
 
 /**
  * Shows or hides the spinner around the large IDE button.
@@ -285,16 +201,6 @@ BotlyStudio.materialAlert = function (title, body, confirm, callback) {
   }
   $('#gen_alert').openModal();
   window.location.hash = '';
-};
-
-/** Opens the modal that displays the Settings. */
-BotlyStudio.openSettingsModal = function () {
-  $('#settings_dialog').openModal({
-    dismissible: true,
-    opacity: .5,
-    in_duration: 200,
-    out_duration: 250
-  });
 };
 
 /**

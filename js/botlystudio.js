@@ -8,7 +8,6 @@ BotlyStudio.init = function() {
   // Lang init must run first for the rest of the page to pick the right msgs
   BotlyStudio.changeToolbox();
   BotlyStudio.initLanguage();
-  BotlyStudio.initDifficulty();
   BotlyStudio.initOutputLanguage();
   //PluginManager.import();
   BotlyAgent.initAgent();
@@ -37,27 +36,30 @@ BotlyStudio.bindActionFunctions = function() {
   // Side menu buttons, they also close the side menu
   BotlyStudio.bindClick_('menu_load', function() {
     BotlyStudio.loadUserXmlFile();
-    $('.button-collapse').sideNav('hide');
+    $('.sidenav').sideNav('close');
   });
+
   BotlyStudio.bindClick_('menu_save', function() {
     BotlyStudio.saveXmlFile();
-    $('.button-collapse').sideNav('hide');
+    $('.sidenav').sideNav('close');
   });
+  
   BotlyStudio.bindClick_('menu_delete', function() {
     BotlyStudio.discardAllBlocks();
-    $('.button-collapse').sideNav('hide');
+    $('.sidenav').sideNav('close');
   });
+  
   BotlyStudio.bindClick_('menu_settings', function() {
-    BotlyStudio.openSettings();
-    $('.button-collapse').sideNav('hide');
+    var instance = M.Modal.getInstance(document.getElementById("settings_dialog"));
+    $('.sidenav').sidenav('close');
+    instance.open();
   });
   /*
   BotlyStudio.bindClick_('menu_example_1', function() {
     BotlyStudio.loadServerXmlFile('../examples/Scott_dessin.xml');
-    $('.button-collapse').sideNav('hide');
+    $('.sidenav').sideNav('close');
   });
 	*/
-
 
   BotlyStudio.bindClick_('button_ide_large', function () {
     BotlyStudio.ideButtonLargeAction();
@@ -80,10 +82,10 @@ BotlyStudio.bindActionFunctions = function() {
 };
 
 
-BotlyStudio.ideButtonLargeAction =  function(){
+BotlyStudio.ideButtonLargeAction = function(){
 };
 
-BotlyStudio.ideButtonMiddleAction =  function(){
+BotlyStudio.ideButtonMiddleAction = function(){
 	  BotlyStudio.devTools();
 };
 

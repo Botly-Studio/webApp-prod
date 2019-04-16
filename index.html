@@ -98,12 +98,12 @@
           </a>
         </li>
         <li id="menu_settings">
-          <a href="#">
+          <a href="#settings_dialog" class="waves-effect waves-light modal-trigger">
             <span class="translatable_settings">Paramètres</span>
             <i class="medium material-icons left" style="line-height: 2">build</i>
           </a>
         </li>
-        <li id="menu_bug">
+        <li id="menu_web">
           <a href="https://botly.lamachinerie.org" target="_blank">
             <span class="translatable_documentation">Site Web</span>
             <i class="medium material-icons left" style="line-height: 2">web</i>
@@ -113,6 +113,12 @@
           <a href="https://botly.lamachinerie.org/signaler-un-bug" target="_blank">
             <span class="translatable_reportBug">Signaler un Bug</span>
             <i class="medium material-icons left" style="line-height: 2">bug_report</i>
+          </a>
+        </li>
+        <li id="menu_buy">
+          <a href="https://botly.lamachinerie.org/le-robot#h.p_v9t3YdFtEHBD" class="btn" style="margin : 0px !important;">
+            <span class="translatable_settings">Pré-commander</span>
+            <i class="medium material-icons" style="line-height: 2; margin-right:0px !important;">shopping_cart</i>
           </a>
         </li>
       </ul>
@@ -208,19 +214,19 @@
           <div class="row">
             <div class="col s12">
               <ul id="tab_wrapper" class="tabs">
-                <li class="tab col s4"><a href="#code_dialog">Code source</a></li>
                 <li class="tab col s4"><a class="active" href="#plugin">Simulation</a></li>
-                <li class="tab col s4"><a class="active" href="#bite">Robot</a></li>
+                <li class="tab col s4"><a href="#code_dialog">Code source</a></li>
+                <li class="tab col s4"><a href="#robot">Robot</a></li>
               </ul>
-              <div id="code_dialog" class="col s12">
-                <pre id="content_code" class="content"></pre>
-              </div>
-              <div id="plugin" class="col s12">
-                <label><span class="content">No plugin found</span></label>
-              </div>
-              <div id="bite" class="col s12">
-                <label><span class="content">No plugin found</span></label>
-              </div>
+            </div>
+            <div id="code_dialog" class="col s12">
+              <pre id="content_code" class="content"></pre>
+            </div>
+            <div id="plugin" class="col s12">
+              <label><span class="content">No plugin found</span></label>
+            </div>
+            <div id="robot" class="col s12">
+              <label><span class="content">No plugin found</span></label>
             </div>
           </div>
         </div>
@@ -229,7 +235,7 @@
   </div>
 
 
-  <div id="xml_wrapper" hidden>
+  <div id="xml_wrapper" hidden> 
       <pre id="content_xml" class="content playground_panel_large"></pre>
   </div>
 
@@ -239,8 +245,15 @@
     <div class="modal-content">
       <h4><span class="translatable_settings">Paramètres</span></h4>
       <div class="modal_section">
-        <label><span class="translatable_difficulty">Difficulté</span>:</label>
-        <select name="settings_difficulty" id="difficulty"></select>
+        <label><span>Difficulté</span>:</label>
+        <div name="settings_difficulty" id="difficulty" class="input-field" style="margin-top: 0px !important;">
+            <select>
+              <option value="1">Novice</option>
+              <option value="2">Débutant</option>
+              <option value="3">Moyen</option>
+              <option value="3">Expert</option>
+            </select>
+          </div>
       </div>
       <div class="modal_section">
         <label><span class="translatable_output_language">Langage de programmation</span>:</label>
@@ -252,8 +265,8 @@
       </div>
       <div class="modal_section" >
         <label><span class="translatable_compilerLocation">Chemin d'accés au compilateur</span>:</label>
-        <input type="text" id="settings_compiler_location" value="Compilateur interne" readonly>
-        <button id="setCompilerLocationButton"> Parcourir... </button>
+        <input type="text" id="settings_compiler_location" value="Compilateur interne" readonly></input>
+        <button class="btn" id="setCompilerLocationButton"> Parcourir... </button>
       </div>
       <div class="modal_section" hidden>
         <label><span class="translatable_comPort">Ports série (COM)<span>:</label>
@@ -267,7 +280,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#" class="waves-effect btn-flat modal-close"><span class="translatable_return">Valider</span></a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Valider</a>
     </div>
   </div>
 

@@ -116,3 +116,31 @@ BotlyAgent.sendSketchToServer = function(code, flag) {
     ipc.send('openIDE');
   }
 };
+
+
+BotlyAgent.setCompilerLocation = function(){
+  // Create once invisible browse button with event listener, and click it
+  var selectFile = document.getElementById('select_file');
+  if (selectFile === null) {
+    var selectFileDom = document.createElement('INPUT');
+    selectFileDom.type = 'file';
+    selectFileDom.id = 'select_file';
+
+    var selectFileWrapperDom = document.createElement('DIV');
+    selectFileWrapperDom.id = 'select_file_wrapper';
+    selectFileWrapperDom.style.display = 'none';
+    selectFileWrapperDom.appendChild(selectFileDom);
+
+    document.body.appendChild(selectFileWrapperDom);
+    selectFile = document.getElementById('select_file');
+    selectFile.addEventListener('change', BotlyAgent.CompilerLocationEvent, false);
+  }
+  selectFile.click();
+}
+
+BotlyAgent.CompilerLocationEvent = function(e) {
+  var xmlFile = e.target.files[0];
+  console.log(xmlFile);
+  var filename = xmlFile.name;
+  document.getElementById("settings_compiler_location").value = filename;
+}

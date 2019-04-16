@@ -33,24 +33,6 @@ BotlyStudio.DIFFICULTY_NAME = {
 ***********************************/
 BotlyStudio.DIFFICULTY = 1;
 
-BotlyStudio.initDifficulty = function() {
-  BotlyStudio.populateDifficultyMenu(BotlyStudio.DIFFICULTY);
-};
-
-BotlyStudio.populateDifficultyMenu = function(selectedDifficulty) {
-  var difficultyMenu = document.getElementById('difficulty');
-  difficultyMenu.options.length = 0;
-
-  for (var difficulty in BotlyStudio.DIFFICULTY_NAME) {
-    var option = new Option(BotlyStudio.DIFFICULTY_NAME[difficulty], difficulty);
-    if (difficulty == selectedDifficulty) {
-      option.selected = true;
-    }
-    difficultyMenu.options.add(option);
-  }
-  difficultyMenu.onchange = BotlyStudio.changeDifficulty;
-};
-
 /** Saves the blocks and reloads with a different language. */
 BotlyStudio.changeDifficulty = function() {
   var difficultyMenu = document.getElementById('difficulty');
