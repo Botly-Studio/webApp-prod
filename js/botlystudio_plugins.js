@@ -11,7 +11,7 @@ PluginManager.import = function () {
         //Turtle plugin
         
         plugins[0] = document.createElement('script');
-        plugins[0].src = 'botlystudio/plugins/turtle/turtle.js';
+        plugins[0].src = './js/plugins/turtle.js';
         plugins[0].onload = function(){
             Turtle.init();
             PluginManager.plDesigntoggle[0] = function(){Turtle.toggleConsole();};
@@ -31,7 +31,7 @@ PluginManager.import = function () {
 
 
 PluginManager.injectHtml = function (HtmlStr) {
-    var row = document.getElementById("playground");
+    var row = document.getElementById("pluginSpace");
     row.insertAdjacentHTML('afterbegin', HtmlStr);
 }
 

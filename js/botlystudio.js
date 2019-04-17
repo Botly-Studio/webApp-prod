@@ -9,7 +9,7 @@ BotlyStudio.init = function() {
   BotlyStudio.changeToolbox();
   BotlyStudio.initLanguage();
   BotlyStudio.initOutputLanguage();
-  //PluginManager.import();
+  PluginManager.import();
   BotlyAgent.initAgent();
   // Inject Blockly into content_blocks and fetch additional blocks
   BotlyStudio.injectBlockly(document.getElementById('content_blocks'),

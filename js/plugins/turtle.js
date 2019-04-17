@@ -3,7 +3,7 @@ goog.provide('Turtle');
 var Turtle = Turtle || {};
 
 Turtle.html =
-  "  <div id='visualization' class='content content_height_transition playground_panel_large' wrap='soft'>" +
+  "  <div id='visualization' class='content' wrap='soft'>" +
   "    <div class='scrollbar' id='style-10'>" +
   "      <canvas id='display' width='400' height='400'></canvas>" +
   "      <canvas id='scratch' width='400' height='400' hidden></canvas>" +
@@ -13,26 +13,13 @@ Turtle.html =
   "        <clipPath id='slowClipPath'>" +
   "          <rect width='26' height='12' x='5' y='14'></rect>" +
   "        </clipPath>" +
-  "        <image xlink:href='botlystudio/plugins/turtle/icons.png' height='42' width='84' x='-21' y='-10' clip-path='url(#slowClipPath)'></image>" +
+  "        <image xlink:href='./js/plugins/turtle/icons.png' height='42' width='84' x='-21' y='-10' clip-path='url(#slowClipPath)'></image>" +
   "        <!-- Fast icon. -->" +
   "        <clipPath id='fastClipPath'>" +
   "         <rect width='26' height='16' x='120' y='10'></rect>" +
   "        </clipPath>" +
-  "        <image xlink:href='botlystudio/plugins/turtle/icons.png' height='42' width='84' x='120' y='-11' clip-path='url(#fastClipPath)'></image>" +
+  "        <image xlink:href='./js/plugins/turtle/icons.png' height='42' width='84' x='120' y='-11' clip-path='url(#fastClipPath)'></image>" +
   "      </svg>" +
-  /*"      <svg id='zoom_slider' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'" +
-  "        version='1.1' width='150' height='50' class='slider2'>" +
-  "        <!-- Slow icon. -->" +
-  "        <clipPath id='slowClipPath'>" +
-  "          <rect width='26' height='12' x='5' y='14'></rect>" +
-  "          <image src='botlystudio/plugins/turtle/icons2.svg' height='42' width='84' x='120' y='-11' clip-path='url(#slowClipPath)'></image>" +
-  "        </clipPath>" +
-  "       <!-- Fast icon. -->" +
-  "        <clipPath id='fastClipPath'>" +
-  "          <rect width='26' height='16' x='120' y='10'></rect>" +
-  "          <image src='botlystudio/plugins/turtle/icons2.png' height='42' width='84' x='120' y='-11' clip-path='url(#fastClipPath)'></image>" +
-  "        </clipPath>" +
-  "       </svg>" +*/
   "     </div>" +
   "   </div>";
 
@@ -48,24 +35,6 @@ Turtle.css =
   "  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
   "  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
   "}" +
-  ".content_display_large {" +
-  "  height: 100%;" +
-  "  /*padding-bottom: 98%;*/" +
-  "  overflow: auto;" +
-  "  min-height: 300px;" +
-  "  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "}" +
-  ".content_display_small {" +
-  "  height: 100%;" +
-  "  /*padding-bottom: 98%;*/" +
-  "  overflow: auto;" +
-  "  min-height: 300px;" +
-  "  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "}" +
   "#display {" +
   "  position: relative;" +
   "  width: 80%;" +
@@ -73,12 +42,12 @@ Turtle.css =
   "  margin-left: 10%;" +
   "  margin-top: 10%;" +
   "  border-width: 1px;" +
-  "  border-color: black;" +
+  "  border-color: #646464;" +
   "  border-style: inset;" +
   "}" +
   ".scrollbar {" +
   "  float: left;" +
-  "  height: 100%;" +
+  "  height: auto;" +
   "  width: 99.5%;" +
   "  background: #ffffff;" +
   "  overflow-y: auto;" +
@@ -146,14 +115,10 @@ Turtle.init = function () {
     Turtle.reset();
   });
 
-  document.getElementById('ide_output_collapsible_header').addEventListener(
-    'click', function () {
-      Turtle.toggleConsole();
-    });
 
   var head = document.getElementsByTagName('head')[0];
   var plugin = document.createElement('script');
-  plugin.src = 'botlystudio/plugins/turtle/slider.js';
+  plugin.src = './js/plugins/turtle/slider.js';
   plugin.onload = function () {
     var sliderSvg = document.getElementById('speed_slider');
     Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
@@ -649,30 +614,6 @@ BotlyStudio.changeToolbox = function () {
   }
 };
 
-
-
-Turtle.toggleConsole = function () {
-  var outputHeader = document.getElementById('console_header');
-  var visualization = document.getElementById('visualization');
-  // Blockly doesn't resize with CSS3 transitions enabled, so do it manually
-  var timerId = setInterval(function () {
-    window.dispatchEvent(new Event('resize'));
-  }, 15);
-  setTimeout(function () {
-    clearInterval(timerId);
-  }, 400);
-
-  if (!outputHeader.className.match('active')) {
-    visualization.className = 'content height_transition playground_panel_small';
-  } else {
-    visualization.className = 'content height_transition playground_panel_large';
-  }
-
-  // If the height transition CSS is left then blockly does not resize
-  setTimeout(function () {
-    visualization.className = visualization.className.replace('height_transition', '');
-  }, 400);
-}
 
 Turtle.saveCanvas = function () {
   var canvas = document.getElementById("display");

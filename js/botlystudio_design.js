@@ -32,6 +32,13 @@ BotlyStudio.materializeJsInit = function () {
     swipeable: false
   });
 
+
+
+  $('.fixed-action-btn').floatingActionButton({
+    direction: "left"
+  });
+        
+        
   $('select').formSelect();
   $('.modal').modal();
   // Drop down menus
