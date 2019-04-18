@@ -121,6 +121,8 @@ Slider.prototype.mouseWheel_ = function (e) {
 };
 
 
+
+
 /**
  * Start a drag when clicking down on the knob.
  * @param {!Event} e Mouse-down event.

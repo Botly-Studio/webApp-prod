@@ -13,7 +13,15 @@ PluginManager.import = function () {
         plugins[0] = document.createElement('script');
         plugins[0].src = './js/plugins/turtle.js';
         plugins[0].onload = function(){
+          
+        $.get( "js/plugins/turtle/turtle.html", function( data ) {
+          Turtle.html = data;
+          $.get( "js/plugins/turtle/turtle.css", function( data ) {
+            Turtle.css = data;
             Turtle.init();
+          });
+        });
+
             PluginManager.plDesigntoggle[0] = function(){Turtle.toggleConsole();};
         };
 		

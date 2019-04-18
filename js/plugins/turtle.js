@@ -2,70 +2,6 @@ goog.provide('Turtle');
 
 var Turtle = Turtle || {};
 
-Turtle.html =
-  "  <div id='visualization' class='content' wrap='soft'>" +
-  "    <div class='scrollbar' id='style-10'>" +
-  "      <canvas id='display' width='400' height='400'></canvas>" +
-  "      <canvas id='scratch' width='400' height='400' hidden></canvas>" +
-  "      <svg id='speed_slider' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'" +
-  "        version='1.1' width='150' height='50' class='slider2'>" +
-  "        <!-- Slow icon. -->" +
-  "        <clipPath id='slowClipPath'>" +
-  "          <rect width='26' height='12' x='5' y='14'></rect>" +
-  "        </clipPath>" +
-  "        <image xlink:href='./js/plugins/turtle/icons.png' height='42' width='84' x='-21' y='-10' clip-path='url(#slowClipPath)'></image>" +
-  "        <!-- Fast icon. -->" +
-  "        <clipPath id='fastClipPath'>" +
-  "         <rect width='26' height='16' x='120' y='10'></rect>" +
-  "        </clipPath>" +
-  "        <image xlink:href='./js/plugins/turtle/icons.png' height='42' width='84' x='120' y='-11' clip-path='url(#fastClipPath)'></image>" +
-  "      </svg>" +
-  "     </div>" +
-  "   </div>";
-
-Turtle.css =
-  "#content_display {" +
-  "  resize: none;" +
-  "  outline: none;" +
-  "  border: none;" +
-  "  position: relative;" +
-  "  min-height: 300px;" +
-  "  overflow: auto;" +
-  "  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);" +
-  "}" +
-  "#display {" +
-  "  position: relative;" +
-  "  width: 80%;" +
-  "  height: auto;" +
-  "  margin-left: 10%;" +
-  "  margin-top: 10%;" +
-  "  border-width: 1px;" +
-  "  border-color: #646464;" +
-  "  border-style: inset;" +
-  "}" +
-  ".scrollbar {" +
-  "  float: left;" +
-  "  height: auto;" +
-  "  width: 99.5%;" +
-  "  background: #ffffff;" +
-  "  overflow-y: auto;" +
-  "  overflow-x: hidden;" +
-  "}" +
-  "#style-10::-webkit-scrollbar {" +
-  "  width: 11px;" +
-  "  background-color: rgb(255, 255, 255);" +
-  "}" +
-  "/**  STYLE 10 */" +
-  "#style-10::-webkit-scrollbar-thumb {" +
-  "  position: relative;" +
-  "  border-radius: 11px;" +
-  "  background: #f47a4298;" +
-  "  transform: translate(-50%);" +
-  "}";
-
-
 Turtle.interpreter = null;
 Turtle.canvas = null;
 Turtle.ctx = null;
@@ -79,8 +15,12 @@ Turtle.penDownValue = true;
 Turtle.speedSlider = null;
 //Turtle.zoomSlider = null;
 
-Turtle.HEIGHT = 400;
-Turtle.WIDTH = 400;
+Turtle.HEIGHT = 1380;
+Turtle.WIDTH = 1380;
+
+Turtle.lastX=Turtle.WIDTH/2, Turtle.lastY=Turtle.HEIGHT/2;
+Turtle.dragStart;
+Turtle.dragged;
 
 Turtle.scale = 1;
 Turtle.distCoef = 20;
@@ -88,8 +28,28 @@ Turtle.distCoef = 20;
 Turtle.showGrid = false;
 
 
+Turtle.zoom = function(clicks){
+  var pt = Turtle.ctx.transformedPoint(Turtle.lastX,Turtle.lastY);
+  Turtle.ctx.translate(pt.x,pt.y);
+  Turtle.ctxScratch.translate(pt.x,pt.y);
+  var factor = Math.pow(Turtle.scale,clicks);
+  Turtle.ctx.scale(factor,factor);
+  Turtle.ctxScratch.scale(factor,factor);
+  Turtle.ctx.translate(-pt.x,-pt.y);
+  Turtle.ctxScratch.translate(-pt.x,-pt.y);
+  Turtle.display();
+}
+
+Turtle.handleScroll = function(evt){
+  var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+  if (delta) Turtle.zoom(delta);
+  return evt.preventDefault() && false;
+};
+
+
 /** Initialize function for Turtle */
 Turtle.init = function () {
+  
   PluginManager.injectHtml(Turtle.html);
   PluginManager.injectCss(Turtle.css)
 
@@ -97,6 +57,37 @@ Turtle.init = function () {
 
   Turtle.canvas = document.getElementById("display");
   Turtle.ctx = Turtle.canvas.getContext('2d');
+
+  Turtle.trackTransforms(Turtle.ctx);
+  //Turtle.trackTransforms(Turtle.ctxScratch);
+
+  Turtle.canvas.addEventListener('mousedown',function(evt){
+    document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
+    Turtle.lastX = evt.offsetX || (evt.pageX - Turtle.canvas.offsetLeft);
+    Turtle.lastY = evt.offsetY || (evt.pageY - Turtle.canvas.offsetTop);
+    Turtle.dragStart = Turtle.ctx.transformedPoint(Turtle.lastX,Turtle.lastY);
+    Turtle.dragged = false;
+},false);
+
+  Turtle.canvas.addEventListener('mousemove',function(evt){
+    Turtle.lastX = evt.offsetX || (evt.pageX - Turtle.canvas.offsetLeft);
+    Turtle.lastY = evt.offsetY || (evt.pageY - Turtle.canvas.offsetTop);
+    Turtle.dragged = true;
+    if (Turtle.dragStart){
+      var pt = Turtle.ctx.transformedPoint(Turtle.lastX,Turtle.lastY);
+      Turtle.ctx.translate(pt.x-Turtle.dragStart.x,pt.y-Turtle.dragStart.y);
+      //Turtle.ctxScratch.translate(pt.x-Turtle.dragStart.x,pt.y-Turtle.dragStart.y);
+      Turtle.display();
+          }
+  },false);
+
+  Turtle.canvas.addEventListener('DOMMouseScroll',Turtle.handleScroll,false);
+  Turtle.canvas.addEventListener('mousewheel',Turtle.handleScroll,false);
+
+  Turtle.canvas.addEventListener('mouseup',function(evt){
+    Turtle.dragStart = null;
+      if (!Turtle.dragged) zoom(evt.shiftKey ? -1 : 1 );
+  },false);
 
   BotlyStudio.bindClick_('button_ide_large', function () {
     Turtle.execute();
@@ -122,8 +113,6 @@ Turtle.init = function () {
   plugin.onload = function () {
     var sliderSvg = document.getElementById('speed_slider');
     Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
-    /*var sliderSvg = document.getElementById('zoom_slider');
-    Turtle.zoomSlider = new Slider(10, 35, 130, sliderSvg, Turtle.display);*/
     Turtle.reset();
   }
   head.appendChild(plugin);
@@ -634,11 +623,75 @@ Turtle.saveCanvas = function () {
   }
 }
 
+
+Turtle.trackTransforms = function(ctx){
+  var svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
+  var xform = svg.createSVGMatrix();
+  ctx.getTransform = function(){ return xform; };
+
+  var savedTransforms = [];
+  var save = ctx.save;
+  ctx.save = function(){
+      savedTransforms.push(xform.translate(0,0));
+      return save.call(ctx);
+  };
+
+  var restore = ctx.restore;
+  ctx.restore = function(){
+    xform = savedTransforms.pop();
+    return restore.call(ctx);
+      };
+
+  var scale = ctx.scale;
+  ctx.scale = function(sx,sy){
+    xform = xform.scaleNonUniform(sx,sy);
+    return scale.call(ctx,sx,sy);
+      };
+
+  var rotate = ctx.rotate;
+  ctx.rotate = function(radians){
+      xform = xform.rotate(radians*180/Math.PI);
+      return rotate.call(ctx,radians);
+  };
+
+  var translate = ctx.translate;
+  ctx.translate = function(dx,dy){
+      xform = xform.translate(dx,dy);
+      return translate.call(ctx,dx,dy);
+  };
+
+  var transform = ctx.transform;
+  ctx.transform = function(a,b,c,d,e,f){
+      var m2 = svg.createSVGMatrix();
+      m2.a=a; m2.b=b; m2.c=c; m2.d=d; m2.e=e; m2.f=f;
+      xform = xform.multiply(m2);
+      return transform.call(ctx,a,b,c,d,e,f);
+  };
+
+  var setTransform = ctx.setTransform;
+  ctx.setTransform = function(a,b,c,d,e,f){
+      xform.a = a;
+      xform.b = b;
+      xform.c = c;
+      xform.d = d;
+      xform.e = e;
+      xform.f = f;
+      return setTransform.call(ctx,a,b,c,d,e,f);
+  };
+
+  var pt  = svg.createSVGPoint();
+  ctx.transformedPoint = function(x,y){
+      pt.x=x; pt.y=y;
+      return pt.matrixTransform(xform.inverse());
+  }
+}
+
+
 Turtle.setBackGround = function (path) {
   var canvasStyle = document.getElementById("display").style;
   canvasStyle.background = "#ffffff";
 
-  Turtle.ctx.fillStyle = '#F2F2F2';
+  Turtle.ctx.fillStyle = '#ffffff';
   Turtle.ctx.fill();
   Turtle.ctx.clearRect(0, 0, Turtle.canvas.width, Turtle.canvas.height);
   Turtle.sprites = [];
@@ -682,8 +735,8 @@ Turtle.reset = function() {
 
   // Clear the canvas.
   Turtle.ctxScratch.canvas.width = Turtle.ctxScratch.canvas.width;
-  Turtle.ctxScratch.strokeStyle = '#525252';
-  Turtle.ctxScratch.fillStyle = '#525252';
+  Turtle.ctxScratch.strokeStyle = '#79797a';
+  Turtle.ctxScratch.fillStyle = '#ffffff';
   Turtle.ctxScratch.lineWidth = 3;
   Turtle.ctxScratch.lineCap = 'round';
   Turtle.ctxScratch.font = 'normal 18pt Arial';
@@ -701,11 +754,23 @@ Turtle.reset = function() {
  * Copy the scratch canvas to the display canvas. Add a turtle marker.
  */
 Turtle.display = function() {
-  // Clear the display with black.
+  // Clear the display with white.
+  var p1 = Turtle.ctx.transformedPoint(0,0);
+  var p2 = Turtle.ctx.transformedPoint(Turtle.canvas.width,Turtle.canvas.height);
+
+  Turtle.ctx.save();
+  Turtle.ctxScratch.save();
+  Turtle.ctx.setTransform(1,0,0,1,0,0);
+  Turtle.ctxScratch.setTransform(1,0,0,1,0,0);
+  Turtle.ctx.clearRect(0,0,Turtle.canvas.width,Turtle.canvas.height);
+  Turtle.ctx.restore();
+  Turtle.ctxScratch.restore();
+
+  //Turtle.ctxScratch.scale(Turtle.scale, Turtle.scale);
   Turtle.ctx.beginPath();
   Turtle.ctx.rect(0, 0,
       Turtle.ctx.canvas.width, Turtle.ctx.canvas.height);
-  Turtle.ctx.fillStyle = '#F2F2F2';
+  Turtle.ctx.fillStyle = '#ffffff';
   Turtle.ctx.fill();
 
   // Draw the user layer.
@@ -720,19 +785,22 @@ Turtle.display = function() {
     Turtle.ctx.strokeStyle = '#EA7D00';
     Turtle.ctx.fillStyle = '#EA7D00';
 
+    var scale = 2;
     // Draw the turtle body.
     var radius = Turtle.ctxScratch.lineWidth / 2 + 10;
+    radius *= scale;
     Turtle.ctx.beginPath();
     Turtle.ctx.arc(Turtle.x, Turtle.y, radius, 0, 2 * Math.PI, false);
-    Turtle.ctx.lineWidth = 3;
+    Turtle.ctx.lineWidth = 3 * scale;
     Turtle.ctx.stroke();
 
     // Draw the turtle head.
-    var WIDTH = 0.3;
-    var HEAD_TIP = 10;
-    var ARROW_TIP = 4;
-    var BEND = 6;
-    var radians = 2 * Math.PI * Turtle.heading / 360;
+
+    var WIDTH = 0.4 * scale;
+    var HEAD_TIP = 10 * scale;
+    var ARROW_TIP = 4 * scale;
+    var BEND = 6 * scale;
+    var radians =  2 * Math.PI * Turtle.heading / 360;
     var tipX = Turtle.x + (radius + HEAD_TIP) * Math.sin(radians);
     var tipY = Turtle.y - (radius + HEAD_TIP) * Math.cos(radians);
     radians -= WIDTH;

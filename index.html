@@ -128,7 +128,7 @@
 
   <!-- Content -->
   <div class="container">
-    <div class="row">
+    <div class="row" style="margin-bottom: 0;">
       <div class="col s12 m12 l8" style="position:relative">
         <!-- Toolbox visibility button -->
         <a id="button_toggle_toolbox" class="waves-effect waves-light btn-flat button_toggle_toolbox_off" style="display: none"><i
@@ -206,13 +206,13 @@
         <!-- Blockly Panel -->
         <div class="card-panel white" style="padding: 0">
           <div id="blocks_panel" class="content blocks_panel_large">
-            <div id="content_blocks" class="content z-depth-1"></div>
+            <div id="content_blocks" class="content"></div>
           </div>
         </div>
       </div>
       <div class='col s12 m12 l4'>
         <div class='card-panel white playground_panel_large' style='padding: 0' id="playground">
-          <div class="row">
+          <div class="row" style="height: 100%;">
             <div class="col s12">
               <ul id="tab_wrapper" class="tabs">
                 <li class="tab col s4"><a class="active" href="#pluginSpace">Simulation</a></li>
@@ -223,7 +223,7 @@
             <div id="code_dialog" class="col s12">
               <pre id="content_code" class="content"></pre>
             </div>
-            <div id="pluginSpace" class="col s12">
+            <div id="pluginSpace" class="col s12" style="height: 100%;">
               <label><span class="content" hidden>No plugin found</span></label>
             </div>
             <div id="robot" class="col s12">
@@ -322,6 +322,9 @@
       <a id="gen_prompt_cancel_link" href="#" class="waves-effect btn-flat modal-close"><span class="translatable_cancel">Annuler</span></a>
     </div>
   </div>
+
+
+
 
    <!-- Cookie bar -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=fr&always=1"></script>
