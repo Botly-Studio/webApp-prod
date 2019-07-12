@@ -15,8 +15,8 @@ Turtle.penDownValue = true;
 Turtle.speedSlider = null;
 //Turtle.zoomSlider = null;
 
-Turtle.HEIGHT = 1380;
-Turtle.WIDTH = 1380;
+Turtle.HEIGHT = 1000;
+Turtle.WIDTH = 1000;
 
 Turtle.lastX=Turtle.WIDTH/2, Turtle.lastY=Turtle.HEIGHT/2;
 Turtle.dragStart;
@@ -60,7 +60,7 @@ Turtle.init = function () {
 
   Turtle.trackTransforms(Turtle.ctx);
   //Turtle.trackTransforms(Turtle.ctxScratch);
-
+/*
   Turtle.canvas.addEventListener('mousedown',function(evt){
     document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
     Turtle.lastX = evt.offsetX || (evt.pageX - Turtle.canvas.offsetLeft);
@@ -80,7 +80,7 @@ Turtle.init = function () {
       Turtle.display();
           }
   },false);
-
+*/
   Turtle.canvas.addEventListener('DOMMouseScroll',Turtle.handleScroll,false);
   Turtle.canvas.addEventListener('mousewheel',Turtle.handleScroll,false);
 
