@@ -60,7 +60,7 @@ Turtle.init = function () {
 
   Turtle.trackTransforms(Turtle.ctx);
   //Turtle.trackTransforms(Turtle.ctxScratch);
-/*
+
   Turtle.canvas.addEventListener('mousedown',function(evt){
     document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
     Turtle.lastX = evt.offsetX || (evt.pageX - Turtle.canvas.offsetLeft);
@@ -80,9 +80,6 @@ Turtle.init = function () {
       Turtle.display();
           }
   },false);
-*/
-  Turtle.canvas.addEventListener('DOMMouseScroll',Turtle.handleScroll,false);
-  Turtle.canvas.addEventListener('mousewheel',Turtle.handleScroll,false);
 
   Turtle.canvas.addEventListener('mouseup',function(evt){
     Turtle.dragStart = null;
@@ -120,486 +117,16 @@ Turtle.init = function () {
 
 BotlyStudio.changeToolbox = function () {
   if (BotlyStudio.DIFFICULTY == 1) {
-    BotlyStudio.TOOLBOX_XML =
-      '<xml>' +
-      '  <sep></sep>' +
-      '  <category id="botly" name="Botly">' +
-      '    <block type="botly_deplacement">' +
-      '		<value name="VALUE">' +
-      '       	<shadow type="math_number">' +
-      '          		<field name="NUM">10</field>' +
-      '        	</shadow>' +
-      '		</value>' +
-      '    </block>' +
-      '    <block type="botly_rotation">' +
-      '		<value name="angle">' +
-      '       	<shadow type="math_number">' +
-      '          		<field name="NUM">90</field>' +
-      '        	</shadow>' +
-      '		</value>' +
-      '    </block>' +
-      '    <block type="botly_crayon"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catLoops" name="Loops">' +
-      '    <block type="controls_repeat_ext">' +
-      '      <value name="TIMES">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">5</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catMath" name="Math">' +
-      '    <block type="math_number"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catTime" name="Time">' +
-      '    <block type="infinite_loop"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '</xml>';
+    BotlyStudio.TOOLBOX_XML = BotlyStudio.NEWBIE;
   }
   if (BotlyStudio.DIFFICULTY == 2) {
-    BotlyStudio.TOOLBOX_XML =
-      '<xml>' +
-      '  <sep></sep>' +
-      '  <category id="botly" name="Botly">' +
-      '    <block type="botly_forward">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_backward">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_right">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">90</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_left">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">90</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_crayon"></block>' +
-      '  </category>' + '  <sep></sep>' +
-      '  <category id="catLoops" name="Loops">' +
-      '    <block type="controls_repeat_ext">' +
-      '      <value name="TIMES">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">5</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="controls_for">' +
-      '      <value name="FROM">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="TO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="BY">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catMath" name="Math">' +
-      '    <block type="math_number"></block>' +
-      '    <block type="math_random_int">' +
-      '      <value name="FROM">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="TO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catVariables" name="Variables">' +
-      '    <block type="variables_get"></block>' +
-      '    <block type="variables_set"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>' +
-      '  <sep></sep>' +
-      '  <category id="catTime" name="Time">' +
-      '    <block type="infinite_loop"></block>' +
-      '</xml>';
+    BotlyStudio.TOOLBOX_XML = BotlyStudio.EASY;
   }
   if (BotlyStudio.DIFFICULTY == 3) {
-    BotlyStudio.TOOLBOX_XML =
-      '<xml>' +
-      '  <sep></sep>' +
-      '  <category id="botly" name="Botly">' +
-      '    <block type="botly_forward">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_backward">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_deplacement">' +
-      '		<value name="VALUE">' +
-      '       	<shadow type="math_number">' +
-      '          		<field name="NUM">10</field>' +
-      '        	</shadow>' +
-      '		</value>' +
-      '    </block>' +
-      '    <block type="botly_rotation">' +
-      '		<value name="angle">' +
-      '       	<shadow type="math_number">' +
-      '          		<field name="NUM">90</field>' +
-      '        	</shadow>' +
-      '		</value>' +
-      '    </block>' +
-      '    <block type="botly_right">' +
-      '      <value name="angle">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_left">' +
-      '      <value name="angle">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_stop"></block>' +
-      '    <block type="botly_turn_go"></block>' +
-      '    <block type="botly_crayon"></block>' +
-      '    <block type="botly_polygone"></block>' +
-      '    <block type="botly_cercle"></block>' +
-      '    <block type="botly_ligne"></block>' +
-      '    <block type="botly_contact"></block>' +
-      '    <block type="botly_lever_crayon"></block>' +
-      '    <block type="botly_descendre_crayon"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catLogic" name="Logic">' +
-      '    <block type="controls_if"></block>' +
-      '    <block type="logic_compare"></block>' +
-      '    <block type="logic_operation"></block>' +
-      '    <block type="logic_negate"></block>' +
-      '    <block type="logic_boolean"></block>' +
-      '    <block type="logic_null"></block>' +
-      '    <block type="logic_ternary"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catLoops" name="Loops">' +
-      '    <block type="controls_repeat_ext">' +
-      '      <value name="TIMES">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">5</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="controls_whileUntil"></block>' +
-      '    <block type="controls_for">' +
-      '      <value name="FROM">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="TO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="BY">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="controls_flow_statements"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catMath" name="Math">' +
-      '    <block type="math_number"></block>' +
-      '    <block type="math_arithmetic"></block>' +
-      '    <block type="math_single"></block>' +
-      '    <block type="math_trig"></block>' +
-      '    <block type="math_constant"></block>' +
-      '    <block type="math_number_property"></block>' +
-      '    <block type="math_change">' +
-      '      <value name="DELTA">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="math_round"></block>' +
-      '    <block type="math_modulo"></block>' +
-      '    <block type="math_constrain">' +
-      '      <value name="LOW">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="HIGH">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="math_random_int">' +
-      '      <value name="FROM">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="TO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="math_random_float"></block>' +
-      '    <block type="base_map"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catVariables" name="Variables">' +
-      '    <block type="variables_get"></block>' +
-      '    <block type="variables_set"></block>' +
-      '    <block type="variables_set">' +
-      '      <value name="VALUE">' +
-      '        <block type="variables_set_type"></block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="variables_set_type"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>' +
-      '  <sep></sep>' +
-      '  <category id="catTime" name="Time">' +
-      '    <block type="time_delay">' +
-      '      <value name="DELAY_TIME_MILI">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1000</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="time_delaymicros">' +
-      '      <value name="DELAY_TIME_MICRO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="time_millis"></block>' +
-      '    <block type="time_micros"></block>' +
-      '    <block type="infinite_loop"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '</xml>';
+    BotlyStudio.TOOLBOX_XML = BotlyStudio.MEDIUM;
   }
   if (BotlyStudio.DIFFICULTY == 4) {
-    BotlyStudio.TOOLBOX_XML =
-      '<xml>' +
-      '  <sep></sep>' +
-      '  <category id="botly" name="Botly">' +
-      '    <block type="botly_forward">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_backward">' +
-      '      <value name="VALUE">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_deplacement">' +
-      '		<value name="VALUE">' +
-      '       	<shadow type="math_number">' +
-      '          		<field name="NUM">10</field>' +
-      '        	</shadow>' +
-      '		</value>' +
-      '    </block>' +
-      '    <block type="botly_rotation">' +
-      '		<value name="angle">' +
-      '       	<shadow type="math_number">' +
-      '          		<field name="NUM">90</field>' +
-      '        	</shadow>' +
-      '		</value>' +
-      '    </block>' +
-      '    <block type="botly_right">' +
-      '      <value name="angle">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_left">' +
-      '      <value name="angle">' +
-      '        <shadow type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </shadow>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="botly_stop"></block>' +
-      '    <block type="botly_turn_go"></block>' +
-      '    <block type="botly_crayon"></block>' +
-      '    <block type="botly_polygone"></block>' +
-      '    <block type="botly_cercle"></block>' +
-      '    <block type="botly_ligne"></block>' +
-      '    <block type="botly_contact"></block>' +
-      '    <block type="botly_lever_crayon"></block>' +
-      '    <block type="botly_descendre_crayon"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catLogic" name="Logic">' +
-      '    <block type="controls_if"></block>' +
-      '    <block type="logic_compare"></block>' +
-      '    <block type="logic_operation"></block>' +
-      '    <block type="logic_negate"></block>' +
-      '    <block type="logic_boolean"></block>' +
-      '    <block type="logic_null"></block>' +
-      '    <block type="logic_ternary"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catLoops" name="Loops">' +
-      '    <block type="controls_repeat_ext">' +
-      '      <value name="TIMES">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">5</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="controls_whileUntil"></block>' +
-      '    <block type="controls_for">' +
-      '      <value name="FROM">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="TO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">10</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="BY">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="controls_flow_statements"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catMath" name="Math">' +
-      '    <block type="math_number"></block>' +
-      '    <block type="math_arithmetic"></block>' +
-      '    <block type="math_single"></block>' +
-      '    <block type="math_trig"></block>' +
-      '    <block type="math_constant"></block>' +
-      '    <block type="math_number_property"></block>' +
-      '    <block type="math_change">' +
-      '      <value name="DELTA">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="math_round"></block>' +
-      '    <block type="math_modulo"></block>' +
-      '    <block type="math_constrain">' +
-      '      <value name="LOW">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="HIGH">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="math_random_int">' +
-      '      <value name="FROM">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1</field>' +
-      '        </block>' +
-      '      </value>' +
-      '      <value name="TO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="math_random_float"></block>' +
-      '    <block type="base_map"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catVariables" name="Variables">' +
-      '    <block type="variables_get"></block>' +
-      '    <block type="variables_set"></block>' +
-      '    <block type="variables_set">' +
-      '      <value name="VALUE">' +
-      '        <block type="variables_set_type"></block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="variables_set_type"></block>' +
-      '  </category>' +
-      '  <sep></sep>' +
-      '  <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>' +
-      '  <sep></sep>' +
-      '  <category id="catTime" name="Time">' +
-      '    <block type="time_delay">' +
-      '      <value name="DELAY_TIME_MILI">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">1000</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="time_delaymicros">' +
-      '      <value name="DELAY_TIME_MICRO">' +
-      '        <block type="math_number">' +
-      '          <field name="NUM">100</field>' +
-      '        </block>' +
-      '      </value>' +
-      '    </block>' +
-      '    <block type="time_millis"></block>' +
-      '    <block type="time_micros"></block>' +
-      '    <block type="infinite_loop"></block>' +
-      '  </category>' +
-      '</xml>';
+    BotlyStudio.TOOLBOX_XML = BotlyStudio.HARD;
   }
 };
 
@@ -771,8 +298,9 @@ Turtle.display = function() {
   Turtle.ctx.rect(0, 0,
       Turtle.ctx.canvas.width, Turtle.ctx.canvas.height);
   Turtle.ctx.fillStyle = '#ffffff';
+  Turtle.ctx.strokeStyle = '#bbbbbb';
+  Turtle.ctx.stroke();
   Turtle.ctx.fill();
-
   // Draw the user layer.
   Turtle.ctx.globalCompositeOperation = 'source-over';
   Turtle.ctx.drawImage(Turtle.ctxScratch.canvas, 0, 0);
@@ -785,7 +313,7 @@ Turtle.display = function() {
     Turtle.ctx.strokeStyle = '#EA7D00';
     Turtle.ctx.fillStyle = '#EA7D00';
 
-    var scale = 2;
+    var scale = 1;
     // Draw the turtle body.
     var radius = Turtle.ctxScratch.lineWidth / 2 + 10;
     radius *= scale;
@@ -796,7 +324,7 @@ Turtle.display = function() {
 
     // Draw the turtle head.
 
-    var WIDTH = 0.4 * scale;
+    var WIDTH = 0.2 * scale;
     var HEAD_TIP = 10 * scale;
     var ARROW_TIP = 4 * scale;
     var BEND = 6 * scale;
